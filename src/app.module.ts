@@ -1,9 +1,29 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { LoggerModule } from "nestjs-pino";
+
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { KnexConfig } from "./config/knex.config";
+import { LoggerConfig } from "./config/logger";
+import { KnexCoreModule } from "./knex/knex.module";
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot(),
+    KnexCoreModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) =>
+        new KnexConfig(config).createKnexModuleOptions(),
+    }),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) =>
+        new LoggerConfig(config).createOptionsFactory(),
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
