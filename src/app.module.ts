@@ -6,12 +6,13 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { KnexConfig } from "./config/knex.config";
 import { LoggerConfig } from "./config/logger";
-import { KnexCoreModule } from "./knex/knex.module";
+import { KnexModule } from "./knex/knex.module";
+import { ValidationModule } from "./validation/validation.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    KnexCoreModule.forRootAsync({
+    KnexModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) =>
@@ -23,6 +24,7 @@ import { KnexCoreModule } from "./knex/knex.module";
       useFactory: async (config: ConfigService) =>
         new LoggerConfig(config).createOptionsFactory(),
     }),
+    ValidationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

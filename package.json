@@ -25,6 +25,8 @@
     "@nestjs/config": "^1.1.6",
     "@nestjs/core": "^8.2.6",
     "@nestjs/platform-fastify": "^8.2.6",
+    "ajv": "^8.10.0",
+    "ajv-formats": "^2.1.1",
     "dd-trace": "^2.0.1",
     "knex": "^1.0.2",
     "nestjs-pino": "^2.5.0",

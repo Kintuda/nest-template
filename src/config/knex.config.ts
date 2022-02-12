@@ -13,13 +13,13 @@ export class KnexConfig implements KnexModuleOptionsFactory {
   public createKnexModuleOptions():
     | KnexModuleOptions
     | Promise<KnexModuleOptions> {
-    let connectionDetail: ConnectionDetail =
+    let connectionDetail: ConnectionDetail | undefined =
       this.configService.get<string>("DB_CONNECTION_URL");
 
     if (!connectionDetail) {
       connectionDetail = {
         database: this.configService.get<string>("DB_NAME", "app_name"),
-        password: this.configService.get<string>("DB_PASSWORD", "postgres"),
+        password: this.configService.get<string>("DB_PASSWORD", "docker"),
         user: this.configService.get<string>("DB_USER", "postgres"),
         host: this.configService.get<string>("DB_HOST", "localhost"),
         port: this.configService.get<number>("DB_PORT", 5432),
